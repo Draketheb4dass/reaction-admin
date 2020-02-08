@@ -43,9 +43,8 @@ const validator = formSchema.getFormValidator();
 function VariantTaxForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
+    currentVariant,
     onUpdateProductVariant,
-    product,
-    variant,
     shopId
   } = useProduct();
 
@@ -62,6 +61,7 @@ function VariantTaxForm() {
       setIsSubmitting(true);
 
       await onUpdateProductVariant({
+        variantId: currentVariant._id,
         variant: formSchema.clean(formData)
       });
 
@@ -70,10 +70,10 @@ function VariantTaxForm() {
     validator(formData) {
       return validator(formSchema.clean(formData));
     },
-    value: variant
+    value: currentVariant
   });
 
-  if (!product) {
+  if (!currentVariant) {
     return null;
   }
 
